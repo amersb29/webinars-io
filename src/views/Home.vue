@@ -14,24 +14,21 @@
         alt="Bandera USA"
         @click="setCheckoutInfo('USD')"
       />
+      <img
+        class="home-flags__image"
+        src="@/assets/images/flag_union.png"
+        alt="Bandera USA"
+        @click="setCheckoutInfo('EUR')"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { getCheckoutInfo } from "@/services/axios";
-
 export default {
   methods: {
     async setCheckoutInfo(currency) {
-      debugger;
-      this.$store.commit("updateState", { key: "loading", value: true });
-      const { webinar, webinarjam } = await getCheckoutInfo();
-      this.$store.dispatch("updateCheckoutInfo", {
-        webinar: webinar,
-        webinarjam,
-        currency
-      });
+      this.$store.dispatch("getCheckoutInfo", currency);
       this.$router.push({ name: "Checkout" });
     }
   }

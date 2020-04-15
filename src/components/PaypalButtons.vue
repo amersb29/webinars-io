@@ -18,14 +18,17 @@ export default {
   methods: {
     setLoaded() {
       // https://developer.paypal.com/docs/checkout/best-practices/smart-payment-buttons/
-      this.$store.commit("changeLoading", true);
+      this.$store.commit("updateState", { key: "loading", value: true });
 
       window.paypal
         .Buttons({
           createOrder: (data, actions) => {
             return actions.order.create({
               purchase_units: [
-                { description: "Nombre del Webinar", amount: { value: 0.01 } }
+                { 
+                  description: this.$store.getters.checkoutDescription , 
+                  amount: { value: this.$store.getters.checkoutPrice } 
+                }
               ]
             });
           },
@@ -34,7 +37,12 @@ export default {
               alert(
                 "Transaction completed by " + details.payer.name.given_name
               );
-              this.$store.commit("changeLoading", false);
+              this.$store.commit("updateState", {
+                key: "loading",
+                value: false
+              });
+              
+              window.location = this.$store.getters.checkoutReturnUrl;
             });
           }
         })

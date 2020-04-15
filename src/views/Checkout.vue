@@ -7,7 +7,7 @@
     <div class="checkout-item">
       <img
         class="checkout-item__webinar-image"
-        src="@/assets/images/1Fortaleza-mental_paciencia-y-creatividad_header.jpg"
+        :src="banner"
         alt="Webinar title"
       />
     </div>
@@ -27,7 +27,11 @@ export default {
     // PaypalCheckout
     PaypalButtons
   },
-  computed: {}
+  computed: {
+    banner() {
+      return this.$store.getters.checkoutBanner;
+    }
+  }
 };
 </script>
 

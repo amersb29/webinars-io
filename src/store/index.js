@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import { getCheckoutInfo } from "@/services/axios";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -16,6 +18,18 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async getCheckoutInfo({ commit, dispatch }, currency) {
+      commit("updateState", { key: "loading", value: true });
+      const {
+        data: { webinar, webinarjam }
+      } = await getCheckoutInfo();
+
+      dispatch("updateCheckoutInfo", {
+        webinar,
+        webinarjam,
+        currency
+      });
+    },
     updateCheckoutInfo({ commit }, { webinar, webinarjam, currency }) {
       commit("updateState", { key: "currency", value: currency });
       commit("updateState", { key: "webinar", value: webinar });
@@ -29,6 +43,7 @@ export default new Vuex.Store({
     checkoutDescription: state =>
       `${state.webinar.title}: ${state.webinar.subtitle} - ${state.webinar.date} ${state.webinar.time}`,
     checkoutPrice: state => state.webinar[state.currency],
+    checkoutBanner: state => (state.webinar ? state.webinar.banner : ""),
     checkoutReturnUrl: state => state.webinarjam.return_url
   },
   modules: {}

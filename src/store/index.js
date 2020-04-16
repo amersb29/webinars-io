@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import { getCheckoutInfo } from "@/services/axios";
+import axios from "axios";
 
 Vue.use(Vuex);
 
@@ -18,7 +19,14 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async getCheckoutInfo({ commit, dispatch }, currency) {
+    async getCheckoutInfo({ commit, dispatch }, code) {
+      const {
+        data: { currencies }
+      } = await axios.get(
+        `https://restcountries.eu/rest/v2/alpha/${code.toLowerCase()}`
+      );
+      const currency = currencies[0].code;
+      debugger;
       commit("updateState", { key: "loading", value: true });
       const {
         data: { webinar, webinarjam }

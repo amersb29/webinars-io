@@ -25,9 +25,9 @@ export default {
           createOrder: (data, actions) => {
             return actions.order.create({
               purchase_units: [
-                { 
-                  description: this.$store.getters.checkoutDescription , 
-                  amount: { value: this.$store.getters.checkoutPrice } 
+                {
+                  description: this.$store.getters.checkoutDescription,
+                  amount: { value: this.$store.getters.checkoutPrice }
                 }
               ]
             });
@@ -41,7 +41,7 @@ export default {
                 key: "loading",
                 value: false
               });
-              
+
               window.location = this.$store.getters.checkoutReturnUrl;
             });
           }

@@ -14,6 +14,7 @@
       <v-col cols="6" offset-md="3" class="d-flex justify-end flex-column">
         <countries-dropdown @onBlur="countryChanged"></countries-dropdown>
         <v-btn
+          :disabled="countrySelected"
           depressed
           large
           color="error"
@@ -47,12 +48,17 @@ import CountriesDropdown from "@/components/CountriesDropdown";
 
 export default {
   components: { CountriesDropdown },
+  computed: {
+    countrySelected() {
+      return this.$store.getters.currency === undefined;
+    }
+  },
   methods: {
     countryChanged({ code }) {
       this.$store.dispatch("getCheckoutInfo", code);
     },
     goToCheckout() {
-      this.$router.push({ name: "Checkout" });
+      this.$router.push({ name: "checkout" });
     }
   }
 };

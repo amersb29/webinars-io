@@ -6,9 +6,11 @@ import axios from "axios";
 
 Vue.use(Vuex);
 
+const validCurrencies = ["MXN", "USD", "EUR"];
+
 export default new Vuex.Store({
   state: {
-    currency: "MXN",
+    currency: undefined,
     loading: false,
     webinar: undefined,
     webinarjam: undefined
@@ -26,7 +28,7 @@ export default new Vuex.Store({
         `https://restcountries.eu/rest/v2/alpha/${code.toLowerCase()}`
       );
       const currency = currencies[0].code;
-      debugger;
+
       commit("updateState", { key: "loading", value: true });
       const {
         data: { webinar, webinarjam }
@@ -46,11 +48,15 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    currency: state => state.currency,
+    currency: state =>
+      validCurrencies.indexOf(state.currency) !== -1 ? state.currency : "USD",
     loading: state => state.loading,
     checkoutDescription: state =>
       `${state.webinar.title}: ${state.webinar.subtitle} - ${state.webinar.date} ${state.webinar.time}`,
-    checkoutPrice: state => state.webinar[state.currency],
+    checkoutPrice: state =>
+      validCurrencies.indexOf(state.currency) !== -1
+        ? state.webinar.prices[state.currency]
+        : state.webinar.prices["USD_LATAM"],
     checkoutBanner: state => (state.webinar ? state.webinar.banner : ""),
     checkoutReturnUrl: state => state.webinarjam.return_url
   },

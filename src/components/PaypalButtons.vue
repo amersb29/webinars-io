@@ -19,6 +19,7 @@ export default {
     setLoaded() {
       // https://developer.paypal.com/docs/checkout/best-practices/smart-payment-buttons/
       this.$store.commit("updateState", { key: "loading", value: true });
+      const return_url = this.$store.getters.checkoutReturnUrl;
 
       window.paypal
         .Buttons({
@@ -37,12 +38,8 @@ export default {
               alert(
                 "Transaction completed by " + details.payer.name.given_name
               );
-              this.$store.commit("updateState", {
-                key: "loading",
-                value: false
-              });
-
-              window.location = this.$store.getters.checkoutReturnUrl;
+              
+              window.location = return_url;
             });
           }
         })

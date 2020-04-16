@@ -33,7 +33,7 @@ export default {
 .checkout {
   display: flex;
   justify-content: space-evenly;
-  align-items: center;
+  align-items: flex-start;
 }
 .checkout-item {
   width: 50%;

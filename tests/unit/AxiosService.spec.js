@@ -27,7 +27,9 @@ const webinarInfo = {
 describe("Testing Axios functions", () => {
   test("getCheckoutInfo", async () => {
     getCheckoutInfo.mockResolvedValueOnce(webinarInfo);
-    const { data: { webinar, webinarjam } } = await getCheckoutInfo();
+    const {
+      data: { webinar, webinarjam }
+    } = await getCheckoutInfo();
     await flushPromises();
     expect(getCheckoutInfo).toHaveBeenCalledTimes(1);
     expect(webinar).not.toBeUndefined();

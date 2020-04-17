@@ -29,7 +29,10 @@ export default {
   async created() {
     const {
       data: { countries }
-    } = await axios.get("http://webinars-io.test/countries.php");
+      // } = await axios.get("http://webinars-io.test/countries.php");
+    } = await axios.get(
+      `${process.env.VUE_APP_RESOURCES_URL}/resources/countries.php`
+    );
 
     Object.keys(countries).forEach(key => {
       this.countries.push({ text: countries[key], value: key });

@@ -10,14 +10,12 @@ export default {
   // }),
   mounted() {
     const script = document.createElement("script");
-    // script.src = `https://www.paypal.com/sdk/js?currency=${this.$store.getters.currency}&client-id=${process.env.PAYPAL_ID}`;
-    script.src = `https://www.paypal.com/sdk/js?currency=${this.$store.getters.currency}&client-id=AarZrHtmROoX2eFevQDbPKWGiWKR9ehONIK6JuQaCYBk-zT9G_mFWK3yYnkPtsYKEiYOowF0-cgNbcNC`;
+    script.src = `https://www.paypal.com/sdk/js?currency=${this.$store.getters.currency}&client-id=${process.env.VUE_APP_PAYPAL_ID}`;
     script.addEventListener("load", this.setLoaded);
     document.body.appendChild(script);
   },
   methods: {
     setLoaded() {
-      // https://developer.paypal.com/docs/checkout/best-practices/smart-payment-buttons/
       this.$store.commit("updateState", { key: "loading", value: true });
       const return_url = this.$store.getters.checkoutReturnUrl;
 
@@ -38,7 +36,7 @@ export default {
               alert(
                 "Transaction completed by " + details.payer.name.given_name
               );
-              
+
               window.location = return_url;
             });
           }
@@ -48,9 +46,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.paypal-buttons {
-  margin-top: 10px;
-}
-</style>
